@@ -12,15 +12,12 @@ import java.util.function.Consumer;
 public class UISystem {
 
     public HashMap<Integer, UIItem> uiItemsOnScreen;
-    public HashMap<Interaction.Type, UIItem> uiItems;
     private int uiCounter;
 
 
     public UISystem() {
         uiItemsOnScreen = new HashMap<>();
-        uiItems = new HashMap<>();
         uiCounter = 0;
-        initUiItems();
     }
 
     public void renderUI(SpriteBatch batch) {
@@ -29,15 +26,4 @@ public class UISystem {
         }
     }
 
-    public void createVisualForInteraction(Interaction interaction) {
-        uiItemsOnScreen.put(Interaction.interactionID, uiItems.get(interaction.type));
-    }
-
-    public void removeVisualForInteraction() {
-        uiItemsOnScreen.remove(Interaction.interactionID);
-    }
-
-    private void initUiItems() {
-        uiItems.put(Interaction.Type.LOCKED_DOOR, new UIItem(new Texture(Gdx.files.internal("locked.png")), new Vector2(0,0)));
-    }
 }

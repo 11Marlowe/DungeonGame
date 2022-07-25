@@ -1,11 +1,13 @@
 package com.dungeon.game.entities.mapEntities;
 
-public class Door {
+import com.dungeon.game.entities.Entity;
+
+public class Door extends Entity {
 
     public boolean isLocked;
 
-    public Door() {
-
+    public Door(boolean isLocked) {
+        this.isLocked = isLocked;
     }
 
 }

@@ -5,9 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.dungeon.game.TestGameScreen;
+import com.dungeon.game.entities.Entity;
 import com.dungeon.game.entities.player.Player;
 import com.dungeon.game.systems.events.Event;
 import com.dungeon.game.systems.events.EventArgs;
+import com.dungeon.game.systems.map.floors.DungeonFloorOne;
+import com.dungeon.game.systems.map.floors.DungeonFloorTwo;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -90,8 +93,9 @@ public class MapSystem {
         int y = (int)(player.pos.y / 32 + vec.y);
 
         // check player dir and pos, also change to use tile enum
-        if (currentDungeonFloor.mapInfo.map[y][x] == 5) {
-            interactionFound.broadcast(new EventArgs(5));
+        if (currentDungeonFloor.mapInfo.map[y][x] == Tiles.DOOR.value) {
+            Entity foundEntity = currentDungeonFloor.mapEntities.get(new Vector2(x, y));
+            interactionFound.broadcast(new EventArgs(foundEntity));
         }
     };
 
@@ -132,7 +136,7 @@ public class MapSystem {
 
     private void initMaps() {
         dungeonFloors = new HashMap<>();
-        dungeonFloors.put(1, new DungeonFloor(1, new MapInfo(0, 2, new int[][] {
+        dungeonFloors.put(1, new DungeonFloorOne(new MapInfo(0, 2, new int[][] {
                 {1, 1, 1, 1, 1, 1, 1, 5, 1, 1},
                 {1, 4, 1, 0, 0, 0, 0, 0, 0, 1},
                 {1, 0, 1, 1, 1, 1, 0, 0, 0, 1},
@@ -140,7 +144,7 @@ public class MapSystem {
                 {1, 3, 1, 0, 0, 0, 0, 0, 0, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         }, new Vector2(32, 32))));
-        dungeonFloors.put(2, new DungeonFloor(2, new MapInfo(1, 3, new int[][] {
+        dungeonFloors.put(2, new DungeonFloorTwo(new MapInfo(1, 3, new int[][] {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 {1, 4, 1, 0, 0, 0, 0, 0, 0, 1},
                 {1, 0, 1, 1, 0, 0, 0, 0, 0, 1},

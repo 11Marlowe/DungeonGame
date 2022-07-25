@@ -29,5 +29,6 @@ public class Player extends Entity {
         this.tex = new Texture("play.png");
         this.pos = new Vector2(32, 32);
         state =  State.NONE;
+        direction = Direction.UP;
     }
 }
