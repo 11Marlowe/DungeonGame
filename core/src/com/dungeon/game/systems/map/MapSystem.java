@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.dungeon.game.TestGameScreen;
+import com.dungeon.game.screens.TestGameScreen;
 import com.dungeon.game.entities.Entity;
 import com.dungeon.game.entities.player.Player;
 import com.dungeon.game.systems.events.Event;

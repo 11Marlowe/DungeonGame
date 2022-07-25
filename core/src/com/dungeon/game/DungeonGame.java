@@ -1,11 +1,8 @@
 package com.dungeon.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import jdk.incubator.vector.VectorOperators;
+import com.dungeon.game.screens.TestGameScreen;
 
 public class DungeonGame extends Game {
 	public SpriteBatch batch;

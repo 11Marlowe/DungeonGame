@@ -8,6 +8,10 @@ import javax.swing.*;
 
 public class Player extends Entity {
 
+
+// todo: maybe should be just a static info class
+
+
     public static final int PLAYER_ID = 0;
 
     public enum Direction {

@@ -1,7 +1,6 @@
 package com.dungeon.game.systems;
 
-import com.badlogic.gdx.math.Vector2;
-import com.dungeon.game.TestGameScreen;
+import com.dungeon.game.screens.TestGameScreen;
 import com.dungeon.game.entities.player.Player;
 import com.dungeon.game.systems.events.EventArgs;
 

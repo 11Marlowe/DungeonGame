@@ -1,9 +1,10 @@
-package com.dungeon.game;
+package com.dungeon.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.dungeon.game.DungeonGame;
 import com.dungeon.game.entities.Entity;
 import com.dungeon.game.entities.player.Player;
 import com.dungeon.game.systems.InputSystem;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 public class TestGameScreen extends ScreenAdapter {
 
     //static hashmap of entities so player doesn't need to be passed in
+    // todo: probably need to find a better solution
     public static HashMap<Integer, Entity> entities;
 
     public static final int SCREEN_WIDTH = 320;
@@ -48,10 +50,10 @@ public class TestGameScreen extends ScreenAdapter {
         //connect events
         inputSystem.moveKeyPressed.addListener(mapSystem.checkPlayerMapPosForMove);
         inputSystem.moveKeyPressed.addListener(movementSystem.changePlayerDir);
-        inputSystem.interactKeyPressed.addListener(mapSystem.checkMapForInteraction);
+        inputSystem.interactKeyPressedStateNone.addListener(mapSystem.checkMapForInteraction);
 
         mapSystem.playerCanMove.addListener(movementSystem.movePlayer);
-        mapSystem.interactionFound.addListener(interactSystem.doInteraction);
+        mapSystem.interactionFound.addListener(interactSystem.createInteraction);
     }
 
 
@@ -62,6 +64,7 @@ public class TestGameScreen extends ScreenAdapter {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
+        // just for testing
 //        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
 //            camera.zoom += 0.2;
 //        }

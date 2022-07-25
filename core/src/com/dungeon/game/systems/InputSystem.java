@@ -2,7 +2,7 @@ package com.dungeon.game.systems;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.dungeon.game.TestGameScreen;
+import com.dungeon.game.screens.TestGameScreen;
 import com.dungeon.game.entities.player.Player;
 import com.dungeon.game.systems.events.Event;
 import com.dungeon.game.systems.events.EventArgs;
@@ -11,17 +11,33 @@ public class InputSystem implements InputProcessor {
 
     private final Player player;
     public Event moveKeyPressed;
-    public Event interactKeyPressed;
+    public Event interactKeyPressedStateNone;
+    public Event interactKeyPressedStateInteracting;
 
     public InputSystem() {
         player = TestGameScreen.getPlayer();
         moveKeyPressed = new Event();
-        interactKeyPressed = new Event();
+        interactKeyPressedStateNone = new Event();
+        interactKeyPressedStateInteracting = new Event();
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        // needs to be done if state is NONE
+        if (player.state == Player.State.NONE) {
+            handleNoneStateInput(keycode);
+        } else {
+            handleInteractingStateInput(keycode);
+        }
+        return false;
+    }
+
+    private void handleInteractingStateInput(int keycode) {
+        if (keycode == Input.Keys.A) {
+            interactKeyPressedStateInteracting.broadcast(new EventArgs());
+        }
+    }
+
+    private void handleNoneStateInput(int keycode) {
         switch (keycode)
         {
             case Input.Keys.LEFT:
@@ -37,12 +53,9 @@ public class InputSystem implements InputProcessor {
                 moveKeyPressed.broadcast(new EventArgs(Player.Direction.DOWN));
                 break;
             case Input.Keys.A:
-                interactKeyPressed.broadcast(new EventArgs());
+                interactKeyPressedStateNone.broadcast(new EventArgs());
                 break;
         }
-
-        // code for state is interacting
-        return false;
     }
 
     @Override
