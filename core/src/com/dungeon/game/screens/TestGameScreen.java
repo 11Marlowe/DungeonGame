@@ -5,10 +5,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.dungeon.game.DungeonGame;
-import com.dungeon.game.entities.player.PlayerInfo;
 import com.dungeon.game.systems.InputSystem;
 import com.dungeon.game.systems.UI.UISystem;
-import com.dungeon.game.systems.interaction.InteractSystem;
 import com.dungeon.game.systems.map.MapSystem;
 import com.dungeon.game.systems.MovementSystem;
 
@@ -24,7 +22,6 @@ public class TestGameScreen extends ScreenAdapter {
     private final InputSystem inputSystem;
     private final MovementSystem movementSystem;
     private final MapSystem mapSystem;
-    private final InteractSystem interactSystem;
     private final UISystem uiSystem;
 
     public TestGameScreen(final DungeonGame game) {
@@ -36,18 +33,17 @@ public class TestGameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(inputSystem);
         movementSystem = new MovementSystem();
         mapSystem = new MapSystem();
-        interactSystem = new InteractSystem();
         uiSystem = new UISystem();
         //connect events
         inputSystem.moveKeyPressed.addListener(mapSystem.checkPlayerMapPosForMove);
         inputSystem.moveKeyPressed.addListener(movementSystem.changePlayerDir);
         inputSystem.interactKeyPressedStateNone.addListener(mapSystem.checkMapForInteraction);
-        inputSystem.interactKeyPressedStateInteracting.addListener(interactSystem.cancelInteraction);
+        inputSystem.interactKeyPressedStateInteracting.addListener(uiSystem.cancelUIForInteraction);
 
         mapSystem.playerCanMove.addListener(movementSystem.movePlayer);
-        mapSystem.interactionFound.addListener(interactSystem.createInteraction);
+        mapSystem.interactionFound.addListener(uiSystem.createUIForInteraction);
 
-        interactSystem.interactionCreated.addListener(uiSystem.createUIForInteraction);
+
     }
 
 

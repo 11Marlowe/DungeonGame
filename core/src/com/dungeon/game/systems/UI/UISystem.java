@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.dungeon.game.DungeonGame;
 import com.dungeon.game.entities.Entity;
 import com.dungeon.game.entities.player.PlayerInfo;
+import com.dungeon.game.systems.UI.UIItems.UILabelItem;
 import com.dungeon.game.systems.events.EventArgs;
 import com.dungeon.game.systems.interaction.Interaction;
 
@@ -16,28 +17,39 @@ import java.util.function.Consumer;
 
 public class UISystem {
 
-    // todo: find some better solution to drawing the ui items
-    public HashMap<Integer, UIItem> uiItemsOnScreen;
+    private UIContainer currentContainer;
     private BitmapFont font;
+    // todo: just for testing
+    private Texture labelTex;
 
     public UISystem() {
-        uiItemsOnScreen = new HashMap<>();
         font = new BitmapFont(Gdx.files.internal("GameFont.fnt"));
+        labelTex = new Texture("TextBg.png");
     }
 
     public void renderUI(SpriteBatch batch) {
-        for (UIItem item : uiItemsOnScreen.values()) {
-            batch.draw(item.tex, item.pos.x, item.pos.y);
+        if (currentContainer != null) {
+            currentContainer.draw(batch, font);
         }
     }
 
+    public Consumer<EventArgs> openMainMenu = args -> {
+        currentContainer = new UIContainer();
+    };
+
     public Consumer<EventArgs> createUIForInteraction = args -> {
         Interaction interaction = (Interaction) args.args;
-
+        currentContainer = new UIContainer();
+        UIItem uiItem = new UILabelItem(labelTex, new Vector2(0, 0), interaction.getTextForInteraction());
+        currentContainer.uiItems.add(uiItem);
     };
 
     public Consumer<EventArgs> cancelUIForInteraction = args -> {
-
+        currentContainer = null;
     };
+
+    public void findInteractedWithUiItemInContainer() {
+
+    }
 
 }

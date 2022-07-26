@@ -5,11 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.dungeon.game.DungeonGame;
+import com.dungeon.game.entities.mapEntities.Door;
 import com.dungeon.game.screens.TestGameScreen;
 import com.dungeon.game.entities.Entity;
 import com.dungeon.game.entities.player.PlayerInfo;
 import com.dungeon.game.systems.events.Event;
 import com.dungeon.game.systems.events.EventArgs;
+import com.dungeon.game.systems.interaction.Interaction;
+import com.dungeon.game.systems.interaction.interactions.DoorInteraction;
 import com.dungeon.game.systems.map.floors.DungeonFloorOne;
 import com.dungeon.game.systems.map.floors.DungeonFloorTwo;
 
@@ -93,10 +96,11 @@ public class MapSystem {
         int x = (int)(playerInfo.pos.x / 32 + vec.x);
         int y = (int)(playerInfo.pos.y / 32 + vec.y);
 
-        // check player dir and pos, also change to use tile enum
+        // todo: other interactions, maybe find a way to avoid if statements
         if (currentDungeonFloor.mapInfo.map[y][x] == Tiles.DOOR.value) {
-            Entity foundEntity = currentDungeonFloor.mapEntities.get(new Vector2(x, y));
-            interactionFound.broadcast(new EventArgs(foundEntity));
+            Door foundEntity = (Door)currentDungeonFloor.mapEntities.get(new Vector2(x, y));
+            Interaction interaction = new DoorInteraction(foundEntity);
+            interactionFound.broadcast(new EventArgs(interaction));
         }
     };
 

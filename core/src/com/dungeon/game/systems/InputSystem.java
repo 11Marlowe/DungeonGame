@@ -35,6 +35,7 @@ public class InputSystem implements InputProcessor {
     private void handleInteractingStateInput(int keycode) {
         if (keycode == Input.Keys.A) {
             interactKeyPressedStateInteracting.broadcast(new EventArgs());
+            playerInfo.state = PlayerInfo.State.NONE;
         }
     }
 
@@ -54,6 +55,7 @@ public class InputSystem implements InputProcessor {
                 moveKeyPressed.broadcast(new EventArgs(PlayerInfo.Direction.DOWN));
                 break;
             case Input.Keys.A:
+                playerInfo.state = PlayerInfo.State.INTERACTING;
                 interactKeyPressedStateNone.broadcast(new EventArgs());
                 break;
         }
