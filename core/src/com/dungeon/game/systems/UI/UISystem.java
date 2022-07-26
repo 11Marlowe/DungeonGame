@@ -1,6 +1,7 @@
 package com.dungeon.game.systems.UI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,6 +25,8 @@ public class UISystem {
 
     public UISystem() {
         font = new BitmapFont(Gdx.files.internal("GameFont.fnt"));
+        font.setColor(Color.WHITE);
+        font.getData().setScale(0.22f, 0.25f);
         labelTex = new Texture("TextBg.png");
     }
 
@@ -40,7 +43,7 @@ public class UISystem {
     public Consumer<EventArgs> createUIForInteraction = args -> {
         Interaction interaction = (Interaction) args.args;
         currentContainer = new UIContainer();
-        UIItem uiItem = new UILabelItem(labelTex, new Vector2(0, 0), interaction.getTextForInteraction());
+        UILabelItem uiItem = new UILabelItem(labelTex, new Vector2(0, 0), interaction.getTextForInteraction());
         currentContainer.uiItems.add(uiItem);
     };
 

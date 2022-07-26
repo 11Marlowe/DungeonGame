@@ -19,6 +19,6 @@ public class UILabelItem extends UIItem {
     @Override
     public void draw(SpriteBatch batch, BitmapFont font) {
         batch.draw(tex, pos.x, pos.y);
-        font.draw(batch, text, pos.x, pos.y);
+        font.draw(batch, text, pos.x + 2, pos.y + 20);
     }
 }

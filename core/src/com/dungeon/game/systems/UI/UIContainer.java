@@ -16,7 +16,7 @@ public class UIContainer {
 
     public void draw(SpriteBatch batch, BitmapFont font) {
         for (UIItem uiItem : uiItems) {
-            batch.draw(uiItem.tex, uiItem.pos.x, uiItem.pos.y);
+            uiItem.draw(batch, font);
         }
     }
 }
