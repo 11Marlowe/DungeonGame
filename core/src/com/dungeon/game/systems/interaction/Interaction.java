@@ -5,4 +5,6 @@ public interface Interaction {
     public String getTextForInteraction();
 
     public String getChoicesForInteraction();
+
+
 }

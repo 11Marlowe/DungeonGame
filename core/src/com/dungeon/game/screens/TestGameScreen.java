@@ -14,6 +14,8 @@ import com.dungeon.game.systems.MovementSystem;
 
 public class TestGameScreen extends ScreenAdapter {
 
+    // todo: this is a temp game screen while i test things
+
     public static final int SCREEN_WIDTH = 320;
     public static final int SCREEN_HEIGHT = 180;
 
@@ -40,9 +42,12 @@ public class TestGameScreen extends ScreenAdapter {
         inputSystem.moveKeyPressed.addListener(mapSystem.checkPlayerMapPosForMove);
         inputSystem.moveKeyPressed.addListener(movementSystem.changePlayerDir);
         inputSystem.interactKeyPressedStateNone.addListener(mapSystem.checkMapForInteraction);
+        inputSystem.interactKeyPressedStateInteracting.addListener(interactSystem.cancelInteraction);
 
         mapSystem.playerCanMove.addListener(movementSystem.movePlayer);
         mapSystem.interactionFound.addListener(interactSystem.createInteraction);
+
+        interactSystem.interactionCreated.addListener(uiSystem.createUIForInteraction);
     }
 
 
