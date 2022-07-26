@@ -1,9 +1,10 @@
 package com.dungeon.game.systems.interaction;
 
+import com.dungeon.game.DungeonGame;
 import com.dungeon.game.screens.TestGameScreen;
 import com.dungeon.game.entities.Entity;
 import com.dungeon.game.entities.mapEntities.Door;
-import com.dungeon.game.entities.player.Player;
+import com.dungeon.game.entities.player.PlayerInfo;
 import com.dungeon.game.systems.events.EventArgs;
 import com.dungeon.game.systems.interaction.interactions.DoorInteraction;
 
@@ -18,10 +19,10 @@ public class InteractSystem {
     }
 
     public Consumer<EventArgs> createInteraction = args -> {
-        Player player = TestGameScreen.getPlayer();
+        PlayerInfo playerInfo = DungeonGame.playerInfo;
         Entity entity = (Entity)args.args;
         createInteraction(entity);
-        player.state = Player.State.INTERACTING;
+        playerInfo.state = PlayerInfo.State.INTERACTING;
     };
 
     private void createInteraction(Entity entity) {

@@ -4,15 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.dungeon.game.entities.Entity;
 
-import javax.swing.*;
-
-public class Player extends Entity {
-
-
-// todo: maybe should be just a static info class
-
-
-    public static final int PLAYER_ID = 0;
+public class PlayerInfo extends Entity {
 
     public enum Direction {
         UP,
@@ -29,7 +21,7 @@ public class Player extends Entity {
     public State state;
     public Direction direction;
 
-    public Player() {
+    public PlayerInfo() {
         this.tex = new Texture("play.png");
         this.pos = new Vector2(32, 32);
         state =  State.NONE;

@@ -4,9 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.dungeon.game.DungeonGame;
 import com.dungeon.game.screens.TestGameScreen;
 import com.dungeon.game.entities.Entity;
-import com.dungeon.game.entities.player.Player;
+import com.dungeon.game.entities.player.PlayerInfo;
 import com.dungeon.game.systems.events.Event;
 import com.dungeon.game.systems.events.EventArgs;
 import com.dungeon.game.systems.map.floors.DungeonFloorOne;
@@ -51,7 +52,7 @@ public class MapSystem {
     private final Texture stairUp;
     private final Texture door;
     private HashMap<Integer, DungeonFloor> dungeonFloors;
-    private HashMap<Player.Direction, Vector2> moveDirIncrements;
+    private HashMap<PlayerInfo.Direction, Vector2> moveDirIncrements;
     private HashMap<Tiles, Texture> tiles;
 
     public static final int TILE_SIZE = 32;
@@ -87,10 +88,10 @@ public class MapSystem {
     }
 
     public Consumer<EventArgs> checkMapForInteraction = args -> {
-        Player player = TestGameScreen.getPlayer();
-        Vector2 vec = moveDirIncrements.get(player.direction);
-        int x = (int)(player.pos.x / 32 + vec.x);
-        int y = (int)(player.pos.y / 32 + vec.y);
+        PlayerInfo playerInfo = DungeonGame.playerInfo;
+        Vector2 vec = moveDirIncrements.get(playerInfo.direction);
+        int x = (int)(playerInfo.pos.x / 32 + vec.x);
+        int y = (int)(playerInfo.pos.y / 32 + vec.y);
 
         // check player dir and pos, also change to use tile enum
         if (currentDungeonFloor.mapInfo.map[y][x] == Tiles.DOOR.value) {
@@ -100,14 +101,14 @@ public class MapSystem {
     };
 
     public Consumer<EventArgs> checkPlayerMapPosForMove = args -> {
-        Player player = TestGameScreen.getPlayer();
-        Player.Direction direction = (Player.Direction)args.args;
+        PlayerInfo playerInfo = DungeonGame.playerInfo;
+        PlayerInfo.Direction direction = (PlayerInfo.Direction)args.args;
         Vector2 vec = moveDirIncrements.get(direction);
-        boolean canMove = checkMove((int) (player.pos.x/32 + vec.x), (int) (player.pos.y/32 + vec.y));
-        boolean onStairs = checkForStairs((int) (player.pos.x/32 + vec.x), (int) (player.pos.y/32 + vec.y));
+        boolean canMove = checkMove((int) (playerInfo.pos.x/32 + vec.x), (int) (playerInfo.pos.y/32 + vec.y));
+        boolean onStairs = checkForStairs((int) (playerInfo.pos.x/32 + vec.x), (int) (playerInfo.pos.y/32 + vec.y));
         // if the player can move and will be on stairs just put player in the next map, no need to move
         if (canMove && onStairs) {
-            player.pos = new Vector2(currentDungeonFloor.mapInfo.playerMapStartPos.x, currentDungeonFloor.mapInfo.playerMapStartPos.y);
+            playerInfo.pos = new Vector2(currentDungeonFloor.mapInfo.playerMapStartPos.x, currentDungeonFloor.mapInfo.playerMapStartPos.y);
         } else if (canMove) {
             playerCanMove.broadcast(new EventArgs(direction));
         }
@@ -159,10 +160,10 @@ public class MapSystem {
     private void createLookupTables() {
         // lookup for player dir movement values
         moveDirIncrements = new HashMap<>();
-        moveDirIncrements.put(Player.Direction.UP, new Vector2(0, 1));
-        moveDirIncrements.put(Player.Direction.DOWN, new Vector2(0, -1));
-        moveDirIncrements.put(Player.Direction.LEFT, new Vector2(-1, 0));
-        moveDirIncrements.put(Player.Direction.RIGHT, new Vector2(1, 0));
+        moveDirIncrements.put(PlayerInfo.Direction.UP, new Vector2(0, 1));
+        moveDirIncrements.put(PlayerInfo.Direction.DOWN, new Vector2(0, -1));
+        moveDirIncrements.put(PlayerInfo.Direction.LEFT, new Vector2(-1, 0));
+        moveDirIncrements.put(PlayerInfo.Direction.RIGHT, new Vector2(1, 0));
 
         //lookup for tile types
         tiles = new HashMap<>();

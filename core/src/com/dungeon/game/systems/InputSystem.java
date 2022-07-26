@@ -2,20 +2,21 @@ package com.dungeon.game.systems;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.dungeon.game.DungeonGame;
 import com.dungeon.game.screens.TestGameScreen;
-import com.dungeon.game.entities.player.Player;
+import com.dungeon.game.entities.player.PlayerInfo;
 import com.dungeon.game.systems.events.Event;
 import com.dungeon.game.systems.events.EventArgs;
 
 public class InputSystem implements InputProcessor {
 
-    private final Player player;
+    private final PlayerInfo playerInfo;
     public Event moveKeyPressed;
     public Event interactKeyPressedStateNone;
     public Event interactKeyPressedStateInteracting;
 
     public InputSystem() {
-        player = TestGameScreen.getPlayer();
+        playerInfo = DungeonGame.playerInfo;
         moveKeyPressed = new Event();
         interactKeyPressedStateNone = new Event();
         interactKeyPressedStateInteracting = new Event();
@@ -23,7 +24,7 @@ public class InputSystem implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (player.state == Player.State.NONE) {
+        if (playerInfo.state == PlayerInfo.State.NONE) {
             handleNoneStateInput(keycode);
         } else {
             handleInteractingStateInput(keycode);
@@ -41,16 +42,16 @@ public class InputSystem implements InputProcessor {
         switch (keycode)
         {
             case Input.Keys.LEFT:
-                moveKeyPressed.broadcast(new EventArgs(Player.Direction.LEFT));
+                moveKeyPressed.broadcast(new EventArgs(PlayerInfo.Direction.LEFT));
                 break;
             case Input.Keys.RIGHT:
-                moveKeyPressed.broadcast(new EventArgs(Player.Direction.RIGHT));
+                moveKeyPressed.broadcast(new EventArgs(PlayerInfo.Direction.RIGHT));
                 break;
             case Input.Keys.UP:
-                moveKeyPressed.broadcast(new EventArgs(Player.Direction.UP));
+                moveKeyPressed.broadcast(new EventArgs(PlayerInfo.Direction.UP));
                 break;
             case Input.Keys.DOWN:
-                moveKeyPressed.broadcast(new EventArgs(Player.Direction.DOWN));
+                moveKeyPressed.broadcast(new EventArgs(PlayerInfo.Direction.DOWN));
                 break;
             case Input.Keys.A:
                 interactKeyPressedStateNone.broadcast(new EventArgs());

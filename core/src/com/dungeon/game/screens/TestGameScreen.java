@@ -5,28 +5,20 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.dungeon.game.DungeonGame;
-import com.dungeon.game.entities.Entity;
-import com.dungeon.game.entities.player.Player;
+import com.dungeon.game.entities.player.PlayerInfo;
 import com.dungeon.game.systems.InputSystem;
 import com.dungeon.game.systems.UI.UISystem;
 import com.dungeon.game.systems.interaction.InteractSystem;
 import com.dungeon.game.systems.map.MapSystem;
 import com.dungeon.game.systems.MovementSystem;
 
-import java.util.HashMap;
-
 public class TestGameScreen extends ScreenAdapter {
-
-    //static hashmap of entities so player doesn't need to be passed in
-    // todo: probably need to find a better solution
-    public static HashMap<Integer, Entity> entities;
 
     public static final int SCREEN_WIDTH = 320;
     public static final int SCREEN_HEIGHT = 180;
 
     private final DungeonGame game;
     private final OrthographicCamera camera;
-    private final Player player;
     private final InputSystem inputSystem;
     private final MovementSystem movementSystem;
     private final MapSystem mapSystem;
@@ -37,9 +29,6 @@ public class TestGameScreen extends ScreenAdapter {
         this.game = game;
         camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
         camera.translate(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-        player = new Player();
-        entities = new HashMap<>();
-        entities.put(Player.PLAYER_ID, player);
         //init systems
         inputSystem  = new InputSystem();
         Gdx.input.setInputProcessor(inputSystem);
@@ -73,17 +62,14 @@ public class TestGameScreen extends ScreenAdapter {
         game.batch.begin();
 
         mapSystem.renderMap(game.batch);
-        game.batch.draw(player.tex, player.pos.x, player.pos.y);
+        game.batch.draw(DungeonGame.playerInfo.tex, DungeonGame.playerInfo.pos.x, DungeonGame.playerInfo.pos.y);
         uiSystem.renderUI(game.batch);
 
         game.batch.end();
     }
 
-    public static Player getPlayer() {
-        return (Player) entities.get(Player.PLAYER_ID);
-    }
-
     @Override
     public void dispose() {
+        // todo: dispose of things
     }
 }

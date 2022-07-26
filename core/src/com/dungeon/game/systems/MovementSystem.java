@@ -1,7 +1,8 @@
 package com.dungeon.game.systems;
 
+import com.dungeon.game.DungeonGame;
 import com.dungeon.game.screens.TestGameScreen;
-import com.dungeon.game.entities.player.Player;
+import com.dungeon.game.entities.player.PlayerInfo;
 import com.dungeon.game.systems.events.EventArgs;
 
 import java.util.function.Consumer;
@@ -15,7 +16,7 @@ public class MovementSystem {
     }
 
     public Consumer<EventArgs> movePlayer = args -> {
-        Player.Direction dir = (Player.Direction)args.args;
+        PlayerInfo.Direction dir = (PlayerInfo.Direction)args.args;
         switch (dir)
         {
             case LEFT:
@@ -34,15 +35,15 @@ public class MovementSystem {
     };
 
     private void move(int stepx, int stepy) {
-        Player player = TestGameScreen.getPlayer();
-        player.pos.x += stepx;
-        player.pos.y += stepy;
+        PlayerInfo playerInfo = DungeonGame.playerInfo;
+        playerInfo.pos.x += stepx;
+        playerInfo.pos.y += stepy;
     }
 
     public Consumer<EventArgs> changePlayerDir = args -> {
-        Player.Direction dir = (Player.Direction)args.args;
-        Player player = TestGameScreen.getPlayer();
-        player.direction = dir;
+        PlayerInfo.Direction dir = (PlayerInfo.Direction)args.args;
+        PlayerInfo playerInfo = DungeonGame.playerInfo;
+        playerInfo.direction = dir;
     };
 
 }
