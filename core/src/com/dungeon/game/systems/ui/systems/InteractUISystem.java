@@ -1,33 +1,31 @@
-package com.dungeon.game.systems.UI;
+package com.dungeon.game.systems.ui.systems;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.dungeon.game.DungeonGame;
-import com.dungeon.game.entities.Entity;
-import com.dungeon.game.entities.player.PlayerInfo;
-import com.dungeon.game.systems.UI.UIItems.UILabelItem;
+import com.dungeon.game.systems.ui.containers.UIContainer;
 import com.dungeon.game.systems.events.EventArgs;
 import com.dungeon.game.systems.interaction.Interaction;
 
-import java.util.HashMap;
 import java.util.function.Consumer;
 
-public class UISystem {
+public class InteractUISystem {
+
+    // todo: further abstract this into more systems main menu, interaction, map etc
 
     private UIContainer currentContainer;
     private BitmapFont font;
     // todo: just for testing
     private Texture labelTex;
 
-    public UISystem() {
+    public InteractUISystem() {
         font = new BitmapFont(Gdx.files.internal("GameFont.fnt"));
         font.setColor(Color.WHITE);
         font.getData().setScale(0.22f, 0.25f);
         labelTex = new Texture("TextBg.png");
+        // create UI containers for game
     }
 
     public void renderUI(SpriteBatch batch) {
@@ -36,15 +34,10 @@ public class UISystem {
         }
     }
 
-    public Consumer<EventArgs> openMainMenu = args -> {
-        currentContainer = new UIContainer();
-    };
 
+    // todo: come back after main menu functionality
     public Consumer<EventArgs> createUIForInteraction = args -> {
         Interaction interaction = (Interaction) args.args;
-        currentContainer = new UIContainer();
-        UILabelItem uiItem = new UILabelItem(labelTex, new Vector2(0, 0), interaction.getTextForInteraction());
-        currentContainer.uiItems.add(uiItem);
     };
 
     public Consumer<EventArgs> cancelUIForInteraction = args -> {

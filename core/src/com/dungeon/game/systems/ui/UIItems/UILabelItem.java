@@ -1,10 +1,9 @@
-package com.dungeon.game.systems.UI.UIItems;
+package com.dungeon.game.systems.ui.UIItems;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.dungeon.game.systems.UI.UIItem;
 
 public class UILabelItem extends UIItem {
 
@@ -18,7 +17,7 @@ public class UILabelItem extends UIItem {
 
     @Override
     public void draw(SpriteBatch batch, BitmapFont font) {
-        batch.draw(tex, pos.x, pos.y);
+        batch.draw(defaultTex, pos.x, pos.y);
         font.draw(batch, text, pos.x + 2, pos.y + 20);
     }
 }

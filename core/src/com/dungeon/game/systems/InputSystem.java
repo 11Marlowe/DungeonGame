@@ -15,26 +15,37 @@ public class InputSystem implements InputProcessor {
     public Event interactKeyPressedStateNone;
     public Event interactKeyPressedStateInteracting;
 
+    public Event mainMenuKeyPressed;
+
     public InputSystem() {
         playerInfo = DungeonGame.playerInfo;
         moveKeyPressed = new Event();
         interactKeyPressedStateNone = new Event();
         interactKeyPressedStateInteracting = new Event();
+        mainMenuKeyPressed = new Event();
     }
 
     @Override
     public boolean keyDown(int keycode) {
         if (playerInfo.state == PlayerInfo.State.NONE) {
             handleNoneStateInput(keycode);
-        } else {
+        } else if (playerInfo.state == PlayerInfo.State.INTERACTING) {
             handleInteractingStateInput(keycode);
+        } else if (playerInfo.state == PlayerInfo.State.IN_MAIN_MENU) {
+            handleMainMenuStateKeyboardInput(keycode);
         }
         return false;
     }
 
-    private void handleInteractingStateInput(int keycode) {
-        if (keycode == Input.Keys.A) {
+    private void handleMainMenuStateKeyboardInput(int keycode) {
+        if (keycode == Input.Keys.Q) {
             interactKeyPressedStateInteracting.broadcast(new EventArgs());
+            playerInfo.state = PlayerInfo.State.NONE;
+        }
+    }
+
+    private void handleInteractingStateInput(int keycode) {
+        if (keycode == Input.Keys.E) {
             playerInfo.state = PlayerInfo.State.NONE;
         }
     }
@@ -54,9 +65,12 @@ public class InputSystem implements InputProcessor {
             case Input.Keys.DOWN:
                 moveKeyPressed.broadcast(new EventArgs(PlayerInfo.Direction.DOWN));
                 break;
-            case Input.Keys.A:
+            case Input.Keys.E:
                 playerInfo.state = PlayerInfo.State.INTERACTING;
                 interactKeyPressedStateNone.broadcast(new EventArgs());
+                break;
+            case Input.Keys.Q:
+                playerInfo.state = PlayerInfo.State.IN_MAIN_MENU;
                 break;
         }
     }

@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.dungeon.game.DungeonGame;
 import com.dungeon.game.systems.InputSystem;
-import com.dungeon.game.systems.UI.UISystem;
 import com.dungeon.game.systems.map.MapSystem;
 import com.dungeon.game.systems.MovementSystem;
+import com.dungeon.game.systems.ui.systems.MainMenuUiSystem;
 
 public class TestGameScreen extends ScreenAdapter {
 
@@ -22,7 +22,7 @@ public class TestGameScreen extends ScreenAdapter {
     private final InputSystem inputSystem;
     private final MovementSystem movementSystem;
     private final MapSystem mapSystem;
-    private final UISystem uiSystem;
+    private final MainMenuUiSystem mainMenuUiSystem;
 
     public TestGameScreen(final DungeonGame game) {
         this.game = game;
@@ -33,15 +33,15 @@ public class TestGameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(inputSystem);
         movementSystem = new MovementSystem();
         mapSystem = new MapSystem();
-        uiSystem = new UISystem();
+        mainMenuUiSystem = new MainMenuUiSystem();
         //connect events
         inputSystem.moveKeyPressed.addListener(mapSystem.checkPlayerMapPosForMove);
         inputSystem.moveKeyPressed.addListener(movementSystem.changePlayerDir);
         inputSystem.interactKeyPressedStateNone.addListener(mapSystem.checkMapForInteraction);
-        inputSystem.interactKeyPressedStateInteracting.addListener(uiSystem.cancelUIForInteraction);
+        //inputSystem.interactKeyPressedStateInteracting.addListener(uiSystem.cancelUIForInteraction);
 
         mapSystem.playerCanMove.addListener(movementSystem.movePlayer);
-        mapSystem.interactionFound.addListener(uiSystem.createUIForInteraction);
+        //mapSystem.interactionFound.addListener(uiSystem.createUIForInteraction);
 
 
     }
@@ -64,7 +64,7 @@ public class TestGameScreen extends ScreenAdapter {
 
         mapSystem.renderMap(game.batch);
         game.batch.draw(DungeonGame.playerInfo.tex, DungeonGame.playerInfo.pos.x, DungeonGame.playerInfo.pos.y);
-        uiSystem.renderUI(game.batch);
+        mainMenuUiSystem.renderMainMenu(game.batch);
 
         game.batch.end();
     }

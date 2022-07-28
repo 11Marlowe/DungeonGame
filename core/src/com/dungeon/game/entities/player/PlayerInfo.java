@@ -15,7 +15,8 @@ public class PlayerInfo extends Entity {
 
     public enum State {
         NONE,
-        INTERACTING
+        INTERACTING,
+        IN_MAIN_MENU
     }
 
     public State state;
