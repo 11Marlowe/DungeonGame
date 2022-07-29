@@ -9,9 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.dungeon.game.DungeonGame;
 import com.dungeon.game.entities.player.PlayerInfo;
 import com.dungeon.game.systems.events.EventArgs;
+import com.dungeon.game.systems.ui.UIItems.UIItem;
 import com.dungeon.game.systems.ui.UIItems.UITab;
-import com.dungeon.game.systems.ui.containers.UIContainer;
-import com.dungeon.game.systems.ui.containers.UITable;
+import com.dungeon.game.systems.ui.menus.MenuFactory;
+import com.dungeon.game.systems.ui.menus.UIMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +23,8 @@ public class MainMenuUiSystem {
 
     private BitmapFont font;
     private Texture mainMenuBg;
-    private HashMap<Integer, UITable> uiTableTabMap;
-    private UITable current;
+    private HashMap<Integer, UIMenu> uiMenuTabMap;
+    private UIMenu current;
     private Vector2 mainMenuPos;
     private List<UITab> tabs;
 
@@ -31,22 +32,28 @@ public class MainMenuUiSystem {
     public MainMenuUiSystem() {
         font = new BitmapFont(Gdx.files.internal("GameFont.fnt"));
         font.setColor(Color.WHITE);
-        font.getData().setScale(0.22f, 0.25f);
+        font.getData().setScale(0.25f, 0.25f);
         mainMenuBg = new Texture("menuBG.png");
-        uiTableTabMap = new HashMap<>();
+        uiMenuTabMap = new HashMap<>();
         mainMenuPos = new Vector2(32, 32);
         tabs = new ArrayList<>();
         tabs.add(new UITab(1, new Vector2(32, 128), true));
         tabs.add(new UITab(2, new Vector2(32, 96), false));
         tabs.add(new UITab(3, new Vector2(32, 64), false));
         tabs.add(new UITab(4, new Vector2(32, 32), false));
-        current = new UITable();
+        UIMenu stats = MenuFactory.getCharacterStatsMenu();
+        uiMenuTabMap.put(stats.associatedTab, stats);
+        uiMenuTabMap.put(2, MenuFactory.getGenericMenuForTesting());
+        uiMenuTabMap.put(3, MenuFactory.getGenericMenuForTesting());
+        uiMenuTabMap.put(4, MenuFactory.getGenericMenuForTesting());
+        uiMenuTabMap.put(5, MenuFactory.getGenericMenuForTesting());
+        current = stats;
     }
 
     public void renderMainMenu(SpriteBatch batch) {
         if (DungeonGame.playerInfo.state == PlayerInfo.State.IN_MAIN_MENU) {
             batch.draw(mainMenuBg, mainMenuPos.x, mainMenuPos.y);
-            current.renderUITable(batch);
+            current.renderMenu(batch, font);
 
             for (UITab uiTab : tabs) {
                 uiTab.draw(batch, font);
@@ -57,6 +64,15 @@ public class MainMenuUiSystem {
     public Consumer<EventArgs> handleMainMenuClick = args -> {
         Vector2 clickedCoords = (Vector2)args.args;
         // check tabs first
+        boolean tabClicked = checkTabsForClick(clickedCoords);
+        if (tabClicked) {
+            return;
+        }
+        // check rest of ui
+
+    };
+
+    private boolean checkTabsForClick(Vector2 clickedCoords) {
         UITab clickedTab = null;
         UITab currentActiveTab = null;
         for (UITab uiTab : tabs) {
@@ -72,11 +88,10 @@ public class MainMenuUiSystem {
             currentActiveTab.active = false;
             clickedTab.active = true;
             // open new tab
-            return;
+            current = uiMenuTabMap.get(clickedTab.tabNum);
+            return true;
         }
-
-        // check rest of ui
-
-    };
+        return false;
+    }
 
 }

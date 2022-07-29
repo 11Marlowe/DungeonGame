@@ -10,12 +10,26 @@ public class UIItem {
     public Texture defaultTex;
     public Vector2 pos;
 
+    public String text;
+
     public UIItem(Texture defaultTex, Vector2 pos) {
         this.defaultTex = defaultTex;
         this.pos = pos;
     }
 
-    public void draw(SpriteBatch batch, BitmapFont font) {
+    public UIItem(Texture defaultTex, Vector2 pos, String text) {
+        this.defaultTex = defaultTex;
+        this.pos = pos;
+        this.text = text;
+    }
 
+    public void draw(SpriteBatch batch, BitmapFont font) {
+        if (defaultTex != null) {
+            batch.draw(defaultTex, pos.x, pos.y);
+        }
+
+        if (text != null) {
+            font.draw(batch, text, pos.x + 15, pos.y +20);
+        }
     }
 }

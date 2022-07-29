@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.dungeon.game.systems.ui.containers.UIContainer;
+import com.dungeon.game.systems.ui.menus.UIMenu;
 import com.dungeon.game.systems.events.EventArgs;
 import com.dungeon.game.systems.interaction.Interaction;
 
@@ -13,9 +13,9 @@ import java.util.function.Consumer;
 
 public class InteractUISystem {
 
-    // todo: further abstract this into more systems main menu, interaction, map etc this is dated for the moment
+    // todo: further abstract this into more systems main menu, interaction, map etc //// this is dated for the moment will change
 
-    private UIContainer currentContainer;
+    private UIMenu currentContainer;
     private BitmapFont font;
     // todo: just for testing
     private Texture labelTex;
@@ -30,7 +30,7 @@ public class InteractUISystem {
 
     public void renderUI(SpriteBatch batch) {
         if (currentContainer != null) {
-            currentContainer.draw(batch, font);
+            currentContainer.renderMenu(batch, font);
         }
     }
 
