@@ -29,7 +29,7 @@ public class TestGameScreen extends ScreenAdapter {
         camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
         camera.translate(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
         //init systems
-        inputSystem  = new InputSystem();
+        inputSystem  = new InputSystem(camera);
         Gdx.input.setInputProcessor(inputSystem);
         movementSystem = new MovementSystem();
         mapSystem = new MapSystem();
@@ -38,6 +38,7 @@ public class TestGameScreen extends ScreenAdapter {
         inputSystem.moveKeyPressed.addListener(mapSystem.checkPlayerMapPosForMove);
         inputSystem.moveKeyPressed.addListener(movementSystem.changePlayerDir);
         inputSystem.interactKeyPressedStateNone.addListener(mapSystem.checkMapForInteraction);
+        inputSystem.clickedWhileInMainMenu.addListener(mainMenuUiSystem.handleMainMenuClick);
         //inputSystem.interactKeyPressedStateInteracting.addListener(uiSystem.cancelUIForInteraction);
 
         mapSystem.playerCanMove.addListener(movementSystem.movePlayer);

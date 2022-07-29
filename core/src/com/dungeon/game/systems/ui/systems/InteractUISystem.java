@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 public class InteractUISystem {
 
-    // todo: further abstract this into more systems main menu, interaction, map etc
+    // todo: further abstract this into more systems main menu, interaction, map etc this is dated for the moment
 
     private UIContainer currentContainer;
     private BitmapFont font;

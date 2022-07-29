@@ -2,6 +2,10 @@ package com.dungeon.game.systems;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.dungeon.game.DungeonGame;
 import com.dungeon.game.screens.TestGameScreen;
 import com.dungeon.game.entities.player.PlayerInfo;
@@ -11,18 +15,23 @@ import com.dungeon.game.systems.events.EventArgs;
 public class InputSystem implements InputProcessor {
 
     private final PlayerInfo playerInfo;
+    private final OrthographicCamera camera;
     public Event moveKeyPressed;
     public Event interactKeyPressedStateNone;
     public Event interactKeyPressedStateInteracting;
 
     public Event mainMenuKeyPressed;
 
-    public InputSystem() {
+    public Event clickedWhileInMainMenu;
+
+    public InputSystem(final OrthographicCamera camera) {
+        this.camera = camera;
         playerInfo = DungeonGame.playerInfo;
         moveKeyPressed = new Event();
         interactKeyPressedStateNone = new Event();
         interactKeyPressedStateInteracting = new Event();
         mainMenuKeyPressed = new Event();
+        clickedWhileInMainMenu = new Event();
     }
 
     @Override
@@ -87,6 +96,11 @@ public class InputSystem implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+        if (playerInfo.state == PlayerInfo.State.IN_MAIN_MENU) {
+            Vector3 worldCoords = camera.unproject(new Vector3(screenX, screenY, 0));
+            clickedWhileInMainMenu.broadcast(new EventArgs(new Vector2(worldCoords.x, worldCoords.y)));
+        }
 
         return false;
     }

@@ -36,7 +36,10 @@ public class MainMenuUiSystem {
         uiTableTabMap = new HashMap<>();
         mainMenuPos = new Vector2(32, 32);
         tabs = new ArrayList<>();
-        tabs.add(new UITab(1, new Vector2(32, 128)));
+        tabs.add(new UITab(1, new Vector2(32, 128), true));
+        tabs.add(new UITab(2, new Vector2(32, 96), false));
+        tabs.add(new UITab(3, new Vector2(32, 64), false));
+        tabs.add(new UITab(4, new Vector2(32, 32), false));
         current = new UITable();
     }
 
@@ -50,5 +53,30 @@ public class MainMenuUiSystem {
             }
         }
     }
+
+    public Consumer<EventArgs> handleMainMenuClick = args -> {
+        Vector2 clickedCoords = (Vector2)args.args;
+        // check tabs first
+        UITab clickedTab = null;
+        UITab currentActiveTab = null;
+        for (UITab uiTab : tabs) {
+            if (uiTab.active) {
+                currentActiveTab = uiTab;
+            }
+            if (uiTab.clickBox.contains(clickedCoords)) {
+                clickedTab = uiTab;
+            }
+        }
+
+        if (clickedTab != null && currentActiveTab != null) {
+            currentActiveTab.active = false;
+            clickedTab.active = true;
+            // open new tab
+            return;
+        }
+
+        // check rest of ui
+
+    };
 
 }
