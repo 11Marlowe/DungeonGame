@@ -27,7 +27,7 @@ public class UIMenu {
         batch.draw(uiBg, pos.x, pos.y);
 
         for (UIItem uiItem : uiItems) {
-            uiItem.draw(batch, font);
+            uiItem.render(batch, font);
         }
     }
 }

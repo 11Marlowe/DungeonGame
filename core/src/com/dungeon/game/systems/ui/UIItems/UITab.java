@@ -25,7 +25,7 @@ public class UITab extends UIItem {
     }
 
     @Override
-    public void draw(SpriteBatch batch, BitmapFont font) {
+    public void render(SpriteBatch batch, BitmapFont font) {
         if (active) {
             batch.draw(defaultTex, pos.x, pos.y);
         } else {

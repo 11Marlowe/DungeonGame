@@ -3,6 +3,7 @@ package com.dungeon.game.systems.ui.menus;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.dungeon.game.systems.ui.UIItems.UIItem;
+import com.dungeon.game.systems.ui.UIItems.UIStatDisplay;
 
 public class MenuFactory {
 
@@ -21,7 +22,13 @@ public class MenuFactory {
         menu.uiItems.add(new UIItem(new Texture("testportrait.png"), new Vector2(64, 96)));
         menu.uiItems.add(new UIItem(null, new Vector2(160, 128), "Strength:"));
         menu.uiItems.add(new UIItem(null, new Vector2(160, 96), "Magic:"));
+        menu.uiItems.add(new UIStatDisplay(null, new Vector2(224, 128), "Strength"));
+        menu.uiItems.add(new UIStatDisplay(null, new Vector2(224, 96), "Magic"));
         return menu;
+    }
+
+    public static UIMenu getInventoryMenu() {
+        return null;
     }
 
     public static UIMenu getGenericMenuForTesting() {

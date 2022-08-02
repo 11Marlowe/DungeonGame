@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.dungeon.game.DungeonGame;
 import com.dungeon.game.entities.player.PlayerInfo;
 import com.dungeon.game.systems.events.EventArgs;
-import com.dungeon.game.systems.ui.UIItems.UIItem;
 import com.dungeon.game.systems.ui.UIItems.UITab;
 import com.dungeon.game.systems.ui.menus.MenuFactory;
 import com.dungeon.game.systems.ui.menus.UIMenu;
@@ -56,7 +55,7 @@ public class MainMenuUiSystem {
             current.renderMenu(batch, font);
 
             for (UITab uiTab : tabs) {
-                uiTab.draw(batch, font);
+                uiTab.render(batch, font);
             }
         }
     }

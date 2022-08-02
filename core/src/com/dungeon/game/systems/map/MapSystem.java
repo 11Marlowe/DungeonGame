@@ -11,8 +11,6 @@ import com.dungeon.game.entities.Entity;
 import com.dungeon.game.entities.player.PlayerInfo;
 import com.dungeon.game.systems.events.Event;
 import com.dungeon.game.systems.events.EventArgs;
-import com.dungeon.game.systems.interaction.Interaction;
-import com.dungeon.game.systems.interaction.interactions.DoorInteraction;
 import com.dungeon.game.systems.map.floors.DungeonFloorOne;
 import com.dungeon.game.systems.map.floors.DungeonFloorTwo;
 
@@ -28,7 +26,9 @@ public class MapSystem {
         WALL(1),
         STAIRS_UP(4),
         STAIRS_DOWN(3),
-        DOOR(5);
+        DOOR(5),
+
+        CHEST(6);
 
         private final int value;
 
@@ -98,9 +98,10 @@ public class MapSystem {
 
         // todo: other interactions, maybe find a way to avoid if statements
         if (currentDungeonFloor.mapInfo.map[y][x] == Tiles.DOOR.value) {
-            Door foundEntity = (Door)currentDungeonFloor.mapEntities.get(new Vector2(x, y));
-            Interaction interaction = new DoorInteraction(foundEntity);
-            interactionFound.broadcast(new EventArgs(interaction));
+            Door door = (Door)currentDungeonFloor.mapEntities.get(new Vector2(x, y));
+            interactionFound.broadcast(new EventArgs(door));
+        } else if (currentDungeonFloor.mapInfo.map[y][x] == Tiles.CHEST.value) {
+
         }
     };
 

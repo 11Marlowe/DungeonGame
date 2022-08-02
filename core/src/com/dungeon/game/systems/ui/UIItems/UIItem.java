@@ -23,7 +23,7 @@ public class UIItem {
         this.text = text;
     }
 
-    public void draw(SpriteBatch batch, BitmapFont font) {
+    public void render(SpriteBatch batch, BitmapFont font) {
         if (defaultTex != null) {
             batch.draw(defaultTex, pos.x, pos.y);
         }
